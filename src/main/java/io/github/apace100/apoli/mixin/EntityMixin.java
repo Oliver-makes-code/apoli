@@ -16,6 +16,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -48,7 +49,7 @@ public abstract class EntityMixin implements MovingEntity, SubmergableEntity {
     public World world;
 
     @Shadow
-    public abstract double getFluidHeight(Tag<Fluid> fluid);
+    public abstract double getFluidHeight(TagKey<Fluid> fluid);
 
     @Shadow
     public abstract Vec3d getVelocity();

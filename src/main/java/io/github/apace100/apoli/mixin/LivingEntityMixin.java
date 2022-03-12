@@ -19,11 +19,13 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -159,8 +161,8 @@ public abstract class LivingEntityMixin extends Entity implements ModifiableFood
     }
 
     @Inject(method = "canWalkOnFluid", at = @At("HEAD"), cancellable = true)
-    private void modifyWalkableFluids(Fluid fluid, CallbackInfoReturnable<Boolean> info) {
-        if(PowerHolderComponent.getPowers(this, WalkOnFluidPower.class).stream().anyMatch(p -> fluid.isIn(p.getFluidTag()))) {
+    private void modifyWalkableFluids(FluidState fluidState, CallbackInfoReturnable<Boolean> info) {
+        if(PowerHolderComponent.getPowers(this, WalkOnFluidPower.class).stream().anyMatch(p -> fluidState.isIn(p.getFluidTag()))) {
             info.setReturnValue(true);
         }
     }
@@ -325,7 +327,7 @@ public abstract class LivingEntityMixin extends Entity implements ModifiableFood
     }
 
     @ModifyConstant(method = "swimUpward", constant = @Constant(doubleValue = 0.03999999910593033D))
-    public double modifyUpwardSwimming(double original, Tag<Fluid> fluid) {
+    public double modifyUpwardSwimming(double original, TagKey<Fluid> fluid) {
         if(fluid == FluidTags.LAVA) {
             return original;
         }

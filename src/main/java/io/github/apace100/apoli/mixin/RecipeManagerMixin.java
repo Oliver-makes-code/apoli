@@ -17,17 +17,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Mixin(RecipeManager.class)
 public abstract class RecipeManagerMixin {
 
     @Shadow protected abstract <C extends Inventory, T extends Recipe<C>> Map<Identifier, Recipe<C>> getAllOfType(RecipeType<T> type);
 
+    @Shadow private Map<RecipeType<?>, Map<Identifier, Recipe<?>>> recipes;
+
     @Inject(method = "getFirstMatch", at = @At("HEAD"), cancellable = true)
     private void prioritizeModifiedRecipes(RecipeType<Recipe<Inventory>> type, Inventory inventory, World world, CallbackInfoReturnable<Optional<Recipe<Inventory>>> cir) {
-        Optional<Recipe<Inventory>> modifiedRecipe = this.getAllOfType(type).values().stream().flatMap((recipe) -> {
-            return Util.stream(type.match(recipe, world, inventory));
-        }).filter(r -> r.getClass() == ModifiedCraftingRecipe.class).findFirst();
+        Optional<Recipe<Inventory>> modifiedRecipe = this.getAllOfType(type).values().stream().flatMap((recipe) -> type.match(recipe, world, inventory).stream()).filter(r -> r.getClass() == ModifiedCraftingRecipe.class).findFirst();
         if(modifiedRecipe.isPresent()) {
             cir.setReturnValue(modifiedRecipe);
         }

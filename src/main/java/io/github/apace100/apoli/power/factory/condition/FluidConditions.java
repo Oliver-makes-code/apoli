@@ -9,6 +9,7 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class FluidConditions {
             (data, fluid) -> fluid.isStill()));
         register(new ConditionFactory<>(Apoli.identifier("in_tag"), new SerializableData()
             .add("tag", SerializableDataTypes.FLUID_TAG),
-            (data, fluid) -> fluid.isIn((Tag<Fluid>)data.get("tag"))));
+            (data, fluid) -> fluid.isIn((TagKey<Fluid>)data.get("tag"))));
         register(new ConditionFactory<>(Apoli.identifier("fluid"), new SerializableData()
             .add("fluid", SerializableDataTypes.FLUID),
             (data, fluid) -> fluid.getFluid() == data.get("fluid")));

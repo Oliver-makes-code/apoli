@@ -1,4 +1,5 @@
-accessWidener   v1  named
+accessWidener   v2  named
 
+accessible method net/minecraft/world/biome/Biome getCategory ()Lnet/minecraft/world/biome/Biome$Category;
 mutable field net/minecraft/item/ItemStack item Lnet/minecraft/item/Item;
 extendable class net/minecraft/item/ItemStack

@@ -17,6 +17,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.state.property.Property;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -70,7 +71,7 @@ public class BlockConditions {
                 if(block == null || block.getBlockState() == null) {
                     return false;
                 }
-                return block.getBlockState().isIn((Tag<Block>)data.get("tag"));
+                return block.getBlockState().isIn((TagKey<Block>) data.get("tag"));
             }));
         register(new ConditionFactory<>(Apoli.identifier("adjacent"), new SerializableData()
             .add("comparison", ApoliDataTypes.COMPARISON)
